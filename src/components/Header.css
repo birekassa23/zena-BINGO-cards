@@ -1,0 +1,116 @@
+/* ===== HEADER CONTAINER ===== */
+.header {
+  padding: 8px 16px;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 20px;
+  border-radius: 30px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+/* Dark & Light Theme Container Styles */
+.header.dark .header-content {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.header.light .header-content {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.header-content:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+
+/* ===== BRAND TYPOGRAPHY ===== */
+.brand-accent,
+.brand-text {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.brand-accent {
+  margin-right: 8px;
+}
+
+/* Dark Mode Typography */
+.header.dark .brand-accent {
+  color: #fdcb6e;
+  text-shadow: 0 0 15px rgba(253, 203, 110, 0.3);
+}
+
+.header.dark .brand-text {
+  color: #ffffff;
+}
+
+/* Light Mode Typography */
+.header.light .brand-accent {
+  color: #6c5ce7;
+  text-shadow: 0 2px 8px rgba(108, 92, 231, 0.2);
+}
+
+.header.light .brand-text {
+  color: #2d3436;
+}
+
+/* ===== RESPONSIVE MEDIA QUERIES ===== */
+@media (max-width: 480px) {
+  .header {
+    padding: 6px 12px;
+  }
+
+  .header-content {
+    padding: 4px 16px;
+  }
+
+  .brand-accent,
+  .brand-text {
+    font-size: 20px;
+    letter-spacing: 1.5px;
+  }
+
+  .brand-accent {
+    margin-right: 6px;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand-accent,
+  .brand-text {
+    font-size: 18px;
+  }
+}
+
+@media (max-height: 550px) and (orientation: landscape) {
+  .header {
+    padding: 4px 10px;
+  }
+
+  .header-content {
+    padding: 2px 14px;
+  }
+
+  .brand-accent,
+  .brand-text {
+    font-size: 16px;
+  }
+}

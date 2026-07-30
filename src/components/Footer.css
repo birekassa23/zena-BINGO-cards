@@ -1,0 +1,414 @@
+/* C:\Users\HP\Desktop\zena-BINGO-cards\src\components\Footer.css */
+
+/* ==========================================
+   FOOTER CONTAINER
+   ========================================== */
+.footer {
+  width: 100%;
+  padding: 20px 24px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dark Mode */
+.footer.dark {
+  background: rgba(20, 22, 34, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Light Mode */
+.footer.light {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* ==========================================
+   FOOTER CONTENT
+   ========================================== */
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+/* ==========================================
+   AVATAR
+   ========================================== */
+.footer-avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+}
+
+.footer-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+  border: 2px solid rgba(108, 92, 231, 0.3);
+  transition: all 0.3s ease;
+}
+
+.footer-avatar:hover {
+  transform: scale(1.05);
+  border-color: rgba(108, 92, 231, 0.6);
+}
+
+.footer-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  color: white;
+  position: relative;
+  z-index: 2;
+  border: 2px solid rgba(108, 92, 231, 0.3);
+}
+
+.footer-avatar-glow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, 
+    rgba(108, 92, 231, 0.3) 0%, 
+    transparent 70%
+  );
+  z-index: 1;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.footer-avatar-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: conic-gradient(
+    from 0deg,
+    #6c5ce7,
+    #a29bfe,
+    #6c5ce7
+  );
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  animation: spinRing 4s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes spinRing {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* ==========================================
+   DEVELOPER INFO
+   ========================================== */
+.footer-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.footer-name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.footer-name {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.footer.dark .footer-name {
+  color: #ffffff;
+}
+
+.footer.light .footer-name {
+  color: #1e293b;
+}
+
+.footer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(108, 92, 231, 0.12);
+  color: #6c5ce7;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.footer.dark .footer-badge {
+  background: rgba(108, 92, 231, 0.2);
+  color: #a29bfe;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2ecc71;
+  display: inline-block;
+  animation: pulseDot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+/* ==========================================
+   CONTACTS - Phone & Email Only
+   ========================================== */
+.footer-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.footer-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 2px 0;
+  color: inherit;
+}
+
+.footer.dark .footer-contact {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footer.light .footer-contact {
+  color: rgba(30, 41, 59, 0.6);
+}
+
+.footer-contact:hover {
+  color: #6c5ce7;
+  transform: translateX(4px);
+}
+
+.footer-contact .footer-icon {
+  font-size: 14px;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.footer-contact:hover .footer-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* ==========================================
+   DIVIDER
+   ========================================== */
+.footer-divider {
+  height: 1px;
+  margin: 8px 0 10px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(108, 92, 231, 0.2),
+    transparent
+  );
+}
+
+.footer.dark .footer-divider {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+}
+
+.footer.light .footer-divider {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 0, 0, 0.08),
+    transparent
+  );
+}
+
+/* ==========================================
+   BOTTOM BAR
+   ========================================== */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.footer.dark .footer-bottom {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.footer.light .footer-bottom {
+  color: rgba(30, 41, 59, 0.4);
+}
+
+.footer-copy {
+  letter-spacing: 0.3px;
+}
+
+.footer-version {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.version-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #6c5ce7;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+/* Mobile */
+@media (max-width: 480px) {
+  .footer {
+    padding: 16px 16px 12px;
+    border-radius: 16px;
+  }
+
+  .footer-content {
+    gap: 12px;
+  }
+
+  .footer-avatar-wrapper {
+    width: 52px;
+    height: 52px;
+  }
+
+  .footer-avatar-fallback {
+    font-size: 20px;
+  }
+
+  .footer-name {
+    font-size: 14px;
+  }
+
+  .footer-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  .footer-contact {
+    font-size: 11px;
+  }
+
+  .footer-contact span:last-child {
+    font-size: 10px;
+  }
+
+  .footer-bottom {
+    font-size: 10px;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+  .footer {
+    padding: 12px 12px 10px;
+    border-radius: 14px;
+  }
+
+  .footer-avatar-wrapper {
+    width: 44px;
+    height: 44px;
+  }
+
+  .footer-name {
+    font-size: 13px;
+  }
+
+  .footer-badge {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
+
+  .footer-contact {
+    font-size: 10px;
+  }
+
+  .footer-contact span:last-child {
+    font-size: 9px;
+  }
+}
+
+/* ==========================================
+   REDUCED MOTION
+   ========================================== */
+@media (prefers-reduced-motion: reduce) {
+  .footer-avatar-glow,
+  .footer-avatar-ring,
+  .badge-dot {
+    animation: none !important;
+  }
+
+  .footer-avatar:hover {
+    transform: none !important;
+  }
+
+  .footer-contact:hover {
+    transform: none !important;
+  }
+}

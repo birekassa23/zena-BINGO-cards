@@ -1,0 +1,251 @@
+/* ==========================================
+   BINGO CELL BASE STYLES
+   ========================================== */
+.bingo-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-weight: 900;
+  user-select: none;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Dark mode unmarked cells */
+.bingo-cell.dark:not(.marked) {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Light mode unmarked cells */
+.bingo-cell.light:not(.marked) {
+  background: rgba(241, 245, 249, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* ==========================================
+   CELL VALUES & TEXT SIZING - MOBILE OPTIMIZED
+   ========================================== */
+.cell-value {
+  font-size: clamp(28px, 7vw, 44px) !important;
+  font-weight: 900 !important;
+  line-height: 1;
+  text-align: center;
+}
+
+/* Dark Mode Text Color (Unmarked) */
+.bingo-cell.dark:not(.marked) .cell-value {
+  color: #ffffff !important;
+}
+
+/* Light Mode Text Color (Unmarked) */
+.bingo-cell.light:not(.marked) .cell-value {
+  color: #101828 !important;
+}
+
+/* Star Icon - MOBILE OPTIMIZED */
+.cell-icon {
+  font-size: clamp(34px, 8vw, 50px) !important;
+  line-height: 1;
+  color: #fdcb6e;
+  filter: drop-shadow(0 0 10px rgba(253, 203, 110, 0.5));
+}
+
+/* ==========================================
+   HOVER & ACTIVE STATES
+   ========================================== */
+.bingo-cell:hover:not(.marked):not(.free) {
+  transform: translateY(-2px) scale(1.05);
+  border-color: rgba(108, 92, 231, 0.4) !important;
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.15) !important;
+  z-index: 2;
+}
+
+.bingo-cell:active {
+  transform: scale(0.88) !important;
+}
+
+/* ==========================================
+   MARKED STATE - DARK MODE (Gold)
+   ========================================== */
+.bingo-cell.dark.marked {
+  background: linear-gradient(135deg, #ff9f43, #feca57) !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 18px rgba(253, 203, 110, 0.4), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  transform: scale(0.94) !important;
+}
+
+.bingo-cell.dark.marked .cell-value {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+.bingo-cell.dark.marked .cell-icon {
+  color: #0f172a !important;
+  filter: none !important;
+}
+
+/* Glow effect for dark mode marked cells */
+.bingo-cell.dark.marked::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: radial-gradient(circle at center, 
+    rgba(255, 255, 255, 0.25) 0%, 
+    transparent 70%
+  );
+  pointer-events: none;
+  animation: glowPulseGold 1.5s ease-in-out infinite;
+}
+
+@keyframes glowPulseGold {
+  0%, 100% { 
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  50% { 
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+/* ==========================================
+   MARKED STATE - LIGHT MODE (Green)
+   ========================================== */
+.bingo-cell.light.marked {
+  background: linear-gradient(135deg, #00b894, #00cec9) !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 18px rgba(0, 206, 201, 0.4), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  transform: scale(0.94) !important;
+}
+
+.bingo-cell.light.marked .cell-value {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.bingo-cell.light.marked .cell-icon {
+  color: #ffffff !important;
+  filter: none !important;
+}
+
+/* Glow effect for light mode marked cells */
+.bingo-cell.light.marked::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: radial-gradient(circle at center, 
+    rgba(255, 255, 255, 0.35) 0%, 
+    transparent 70%
+  );
+  pointer-events: none;
+  animation: glowPulseGreen 1.5s ease-in-out infinite;
+}
+
+@keyframes glowPulseGreen {
+  0%, 100% { 
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  50% { 
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+/* ==========================================
+   FREE CELL STATE
+   ========================================== */
+.bingo-cell.free:not(.marked) {
+  border: 1.5px dashed rgba(253, 203, 110, 0.5) !important;
+  background: rgba(253, 203, 110, 0.08) !important;
+}
+
+/* Free cell in light mode */
+.bingo-cell.light.free:not(.marked) {
+  border-color: rgba(0, 206, 201, 0.4) !important;
+  background: rgba(0, 206, 201, 0.05) !important;
+}
+
+/* Free cell in dark mode */
+.bingo-cell.dark.free:not(.marked) {
+  border-color: rgba(253, 203, 110, 0.4) !important;
+  background: rgba(253, 203, 110, 0.05) !important;
+}
+
+/* ==========================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================== */
+
+/* Large phones (iPhone Plus/Pro Max) */
+@media (max-width: 480px) {
+  .bingo-cell {
+    border-radius: 10px !important;
+  }
+
+  .cell-value {
+    font-size: clamp(26px, 6.5vw, 38px) !important;
+  }
+
+  .cell-icon {
+    font-size: clamp(30px, 7.5vw, 44px) !important;
+  }
+}
+
+/* Small phones (iPhone SE, small Android) */
+@media (max-width: 380px) {
+  .bingo-cell {
+    border-radius: 8px !important;
+  }
+
+  .cell-value {
+    font-size: clamp(22px, 5.5vw, 32px) !important;
+  }
+
+  .cell-icon {
+    font-size: clamp(26px, 6.5vw, 38px) !important;
+  }
+}
+
+/* Extra small phones (very small) */
+@media (max-width: 320px) {
+  .bingo-cell {
+    border-radius: 6px !important;
+  }
+
+  .cell-value {
+    font-size: clamp(18px, 4.5vw, 26px) !important;
+  }
+
+  .cell-icon {
+    font-size: clamp(22px, 5.5vw, 32px) !important;
+  }
+}
+
+/* ==========================================
+   REDUCED MOTION
+   ========================================== */
+@media (prefers-reduced-motion: reduce) {
+  .bingo-cell.dark.marked::after,
+  .bingo-cell.light.marked::after {
+    animation: none !important;
+  }
+
+  .bingo-cell * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

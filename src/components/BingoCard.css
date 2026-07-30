@@ -1,0 +1,43 @@
+/* C:\Users\HP\Desktop\zena-BINGO-cards\src\components\BingoCard.css */
+
+/* Only keep custom animations and styles Tailwind can't handle */
+
+@keyframes floatGlow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -30px) scale(1.12); }
+}
+
+@keyframes glowPulseGold {
+  0%, 100% { opacity: 0.3; transform: scale(0.95); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes glowPulseGreen {
+  0%, 100% { opacity: 0.3; transform: scale(0.95); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+/* Custom gradient background for marked cells */
+.bg-gradient-radial {
+  background: radial-gradient(circle at center, rgba(255,255,255,0.25) 0%, transparent 70%);
+}
+
+/* Ensure cards maintain square aspect ratio */
+.bingo-card-container {
+  aspect-ratio: 1 / 1 !important;
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .bingo-card-container .bingo-cell:hover:not(.marked):not(.free) {
+    transform: none !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

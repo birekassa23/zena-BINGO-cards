@@ -1,0 +1,32 @@
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "sync": "npx cap sync android",
+    "open": "npx cap open android",
+    "build:android": "npm run build && npx cap sync android",
+    "apk:debug": "cd android && ./gradlew assembleDebug",
+    "apk:release": "cd android && ./gradlew assembleRelease",
+    "apk:legacy": "cd android && ./gradlew assembleDebug -PminSdk=21",
+    "apk:middle": "cd android && ./gradlew assembleDebug -PminSdk=26",
+    "apk:current": "cd android && ./gradlew assembleDebug -PminSdk=33",
+    "apk:all": "npm run build && npx cap sync android && cd android && ./gradlew assembleDebug",
+    "apk:universal": "npm run build && npx cap sync android && cd android && ./gradlew assembleRelease"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.4",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/cli": "^8.4.2",
+    "@capacitor/core": "^8.4.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}
