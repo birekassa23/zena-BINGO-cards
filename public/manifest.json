@@ -1,30 +1,52 @@
-
 {
-  "name": "ዘና BINGO Cards",
-  "short_name": "BINGO Cards",
-  "description": "Play Bingo with ዘና BINGO Cards",
-  "start_url": "/",
+  "name": "Zena Bingo Cards",
+  "short_name": "Zena Bingo",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#0a0b12",
-  "theme_color": "#fdcb6e",
-  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "/icon.png",
-      "sizes": "512x512",
+      "src": "../icons/icon-48.webp",
       "type": "image/png",
+      "sizes": "48x48",
       "purpose": "any maskable"
     },
     {
-      "src": "/adaptive-icon.png",
-      "sizes": "512x512",
+      "src": "../icons/icon-72.webp",
       "type": "image/png",
-      "purpose": "maskable"
+      "sizes": "72x72",
+      "purpose": "any maskable"
     },
     {
-      "src": "/favicon.png",
-      "sizes": "48x48",
-      "type": "image/png"
+      "src": "../icons/icon-96.webp",
+      "type": "image/png",
+      "sizes": "96x96",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../icons/icon-128.webp",
+      "type": "image/png",
+      "sizes": "128x128",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../icons/icon-192.webp",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../icons/icon-256.webp",
+      "type": "image/png",
+      "sizes": "256x256",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../icons/icon-512.webp",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ]
 }
