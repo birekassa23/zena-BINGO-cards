@@ -1,6 +1,6 @@
-// C:\Users\HP\Desktop\zena-BINGO-cards\src\components\Footer.jsx
 import React, { useState } from "react";
 import "./Footer.css";
+import developerImg from "../developer.png";
 
 export default function Footer({ isDarkMode }) {
   const [imageError, setImageError] = useState(false);
@@ -13,7 +13,7 @@ export default function Footer({ isDarkMode }) {
         <div className="footer-avatar-wrapper">
           {!imageError ? (
             <img
-              src="/developer.png"
+              src={developerImg}
               alt="Birehanu Kassa - Developer"
               className="footer-avatar"
               onError={() => setImageError(true)}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import BingoCell from "./BingoCell";
 
 export default function BingoCard({
   card,
@@ -57,7 +58,6 @@ export default function BingoCard({
   };
 
   const isDark = isDarkMode;
-  // Show Add button only on first card when less than 2 cards total
   const showAddButton = onAdd && totalCards < 2;
 
   return (
@@ -113,7 +113,6 @@ export default function BingoCard({
 
           {/* Add Button (+) or Remove Button (✕) */}
           {showAddButton ? (
-            // Add Button - Green Plus
             <button
               className={`flex-1 h-[clamp(28px,4vw,44px)] rounded-[clamp(8px,1vw,12px)] text-[clamp(20px,2.5vw,28px)] font-extrabold transition-all active:scale-90 flex items-center justify-center ${
                 isDark
@@ -127,7 +126,6 @@ export default function BingoCard({
               +
             </button>
           ) : (
-            // Remove Button - Red X
             onRemove && (
               <button
                 className={`flex-1 h-[clamp(28px,4vw,44px)] rounded-[clamp(8px,1vw,12px)] text-[clamp(20px,2.5vw,28px)] font-extrabold transition-all active:scale-90 flex items-center justify-center ${
@@ -178,63 +176,17 @@ export default function BingoCard({
               {row.map((val, colIndex) => {
                 const numVal = Number(val);
                 const isMarked = calledNumbers.includes(numVal);
-                const isFree = val === "FREE" || val === "Free";
 
                 return (
-                  <div
+                  <BingoCell
                     key={`${rowIndex}-${colIndex}`}
-                    className={`flex-1 aspect-square min-w-0 min-h-0 rounded-[clamp(10px,1.5vw,18px)] flex items-center justify-center font-black transition-all cursor-pointer relative overflow-hidden ${
-                      isMarked && !isFree
-                        ? isDark
-                          ? "bg-gradient-to-br from-amber-400 to-amber-300 scale-[0.92] shadow-[0_6px_24px_rgba(254,202,87,0.5)]"
-                          : "bg-gradient-to-br from-emerald-400 to-teal-400 scale-[0.92] shadow-[0_6px_24px_rgba(0,206,201,0.5)]"
-                        : isFree && !isMarked
-                          ? isDark
-                            ? "border-2 border-dashed border-amber-400/50 bg-amber-400/10"
-                            : "border-2 border-dashed border-teal-400/40 bg-teal-400/5"
-                          : isDark
-                            ? "bg-white/5 border border-white/10"
-                            : "bg-slate-50/90 border border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
-                    } ${
-                      !isMarked && !isFree
-                        ? "hover:scale-105 hover:border-purple-400/40 hover:shadow-[0_6px_20px_rgba(108,92,231,0.15)]"
-                        : ""
-                    } active:scale-90`}
-                    onClick={() => {
-                      if (!isFree) {
-                        onToggleNumber(numVal);
-                      }
-                    }}
-                  >
-                    {isFree ? (
-                      <span
-                        className={`text-[clamp(28px,6vw,56px)] ${
-                          isDark
-                            ? "text-amber-400 drop-shadow-[0_0_16px_rgba(253,203,110,0.4)]"
-                            : "text-teal-400 drop-shadow-[0_0_16px_rgba(0,206,201,0.3)]"
-                        }`}
-                      >
-                        ⭐
-                      </span>
-                    ) : (
-                      <span
-                        className={`text-[clamp(22px,5vw,48px)] font-black leading-none ${
-                          isMarked
-                            ? isDark
-                              ? "text-slate-900"
-                              : "text-white"
-                            : isDark
-                              ? "text-white"
-                              : "text-slate-800"
-                        }`}
-                      >
-                        {val}
-                      </span>
-                    )}
-                    {isMarked && !isFree && (
-                      <div className="absolute inset-[2px] rounded-inherit pointer-events-none animate-pulse bg-gradient-radial from-white/25 to-transparent" />
-                    )}
-                  </div>
+                    value={val}
+                    isDarkMode={isDarkMode}
+                    row={rowIndex}
+                    col={colIndex}
+                    isMarked={isMarked}
+                    onPress={() => onToggleNumber(numVal)}
+                  />
                 );
               })}
             </div>

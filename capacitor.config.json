@@ -1,6 +1,9 @@
 {
-  "appId": "com.example.app",
-  "appName": "zena-bingo-cards",
-  "webDir": "dist"
+  "appId": "com.zenabingo.cards",
+  "appName": "ዘና BINGO Cards",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
 } 
 

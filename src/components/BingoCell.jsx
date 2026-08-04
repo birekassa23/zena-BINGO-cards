@@ -1,8 +1,8 @@
 import React from "react";
+import "./BingoCell.css";
 
 export default function BingoCell({
   value,
-  theme,
   isDarkMode,
   row,
   col,
@@ -22,21 +22,27 @@ export default function BingoCell({
     if (onPress) onPress();
   };
 
-  // Determine the theme class
   const themeClass = isDarkMode ? "dark" : "light";
-
-  // Determine if marked
   const markedClass = isMarkedState ? "marked" : "";
-
-  // Determine if free
   const freeClass = isFree ? "free" : "";
 
-  // Build className string
-  const cellClassName =
-    `bingo-cell ${themeClass} ${markedClass} ${freeClass}`.trim();
+  const cellClassName = `bingo-cell ${themeClass} ${markedClass} ${freeClass}`.trim();
 
   return (
-    <div className={cellClassName} onClick={handleClick}>
+    <div
+      className={cellClassName}
+      onClick={handleClick}
+      role="button"
+      aria-label={isFree ? "Free Space" : `Number ${value}`}
+      aria-pressed={isMarkedState}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleClick();
+        }
+      }}
+    >
       {isFree ? (
         <span className="cell-icon">★</span>
       ) : (

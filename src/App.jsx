@@ -238,10 +238,10 @@ function App() {
         </button>
       </div>
 
-      {/* Scrollable Content - Everything scrolls including footer */}
+      {/* Scrollable Content Container */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden relative z-10">
-        <div className="flex flex-col items-center gap-4 py-4 px-3 min-h-full">
-          {/* Cards */}
+        <div className="flex flex-col items-center gap-4 py-4 px-3 w-full max-w-[460px] mx-auto min-h-full">
+          {/* Cards Stack */}
           {cardsList.map((card, index) => {
             const cardId = getCardNumber(card);
             const resetToken = resetTokens[cardId] || 0;
@@ -250,11 +250,9 @@ function App() {
             return (
               <div
                 key={`${cardId}-${index}`}
-                className="flex items-center justify-center flex-shrink-0"
+                className="w-full flex items-center justify-center flex-shrink-0 transition-all duration-300"
                 style={{
-                  width: cardSize,
                   height: cardSize,
-                  maxWidth: "460px",
                   maxHeight: "460px",
                 }}
               >
@@ -277,13 +275,13 @@ function App() {
             );
           })}
 
-          {/* Footer - Now scrolls with the page */}
-          <div className="w-full max-w-[460px]">
+          {/* Footer aligned perfectly with card width constraints */}
+          <div className="w-full">
             <Footer isDarkMode={isDarkMode} />
           </div>
 
           {/* Extra bottom padding for comfortable scrolling */}
-          <div className="h-6" />
+          <div className="h-6 flex-shrink-0" />
         </div>
       </div>
     </div>

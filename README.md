@@ -1,20 +1,58 @@
-<<<<<<< HEAD
-# React + Vite
+# ዘና BINGO Cards (Digital Bingo Card Player) 🎲📱
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive, mobile-first web and Capacitor hybrid application for playing Bingo digitally on smartphones.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Digital Bingo Cards**: Display and play Bingo cards digitally on mobile screens.
+- **Card Replacement & Search**: Instantly look up and swap any Bingo card by Card # ID.
+- **Dual Card Support**: View up to 2 cards simultaneously side-by-side with auto-resizing.
+- **Interactive Marking**: Tap grid cells to mark/unmark called numbers with animated visual feedback.
+- **Dark & Light Themes**: Smooth glassmorphic themes optimized for both daytime and low-light environments.
+- **Native Android Ready**: Integrated with Capacitor for building native Android APKs across Android SDKs.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React 19, Vite 8, Tailwind CSS
+- **Mobile Engine**: Capacitor 8 (`@capacitor/android`, `@capacitor/cli`)
+- **Styling**: Modern CSS Glassmorphism, CSS Variables, Responsive Viewport Constraints
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# BingoCardsApk
->>>>>>> a013349a1d9e3fc3dceb97d165cda2db3888bb29
+### Prerequisites
+- Node.js (v18+)
+- npm
+
+### Installation
+```bash
+npm install
+```
+
+### Running Locally (Dev Server)
+```bash
+npm run dev
+```
+
+### Production Build
+```bash
+npm run build
+```
+
+## 📱 Building Android APK
+
+1. Sync web dist assets with Android native project:
+   ```bash
+   npm run sync
+   ```
+2. Build Android Debug APK:
+   ```bash
+   npm run apk:debug
+   ```
+3. Build Android Release APK:
+   ```bash
+   npm run apk:release
+   ```
+
+---
+
+**Developed by Birehanu Kassa**

@@ -1,4 +1,6 @@
 {
+  "name": "zena-bingo-cards",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
