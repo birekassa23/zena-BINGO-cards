@@ -10,16 +10,23 @@ function App() {
   const [resetTokens, setResetTokens] = useState({});
   const [calledNumbers, setCalledNumbers] = useState([]);
   const [cardSize, setCardSize] = useState(300);
+  const [toast, setToast] = useState(null);
+
+  const showToast = useCallback((message, type = "info") => {
+    setToast({ message, type, id: Date.now() });
+  }, []);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => {
+      setToast(null);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
   const theme = useMemo(
     () => ({
       background: isDarkMode ? "#090a10" : "#f1f5f9",
-      glowTop: isDarkMode
-        ? "rgba(108, 92, 231, 0.28)"
-        : "rgba(108, 92, 231, 0.15)",
-      glowBottom: isDarkMode
-        ? "rgba(253, 203, 110, 0.22)"
-        : "rgba(253, 203, 110, 0.15)",
     }),
     [isDarkMode],
   );
@@ -35,7 +42,7 @@ function App() {
         (card) => getCardNumber(card) === Number(searchNumber),
       );
       if (!foundCard) {
-        alert(`Card #${searchNumber} does not exist.`);
+        showToast(`ካርቴላ ቁጥር ${searchNumber} አልተገኘም`, "warning");
         return;
       }
       setCardsList((prev) => {
@@ -43,13 +50,14 @@ function App() {
         updated[index] = foundCard;
         return updated;
       });
+      showToast(`ወደ ካርቴላ ቁጥር ${searchNumber} ተቀይሯል`, "success");
     },
-    [getCardNumber],
+    [getCardNumber, showToast],
   );
 
   const handleAddCard = useCallback(() => {
     if (cardsList.length >= 2) {
-      alert("You can only have two cards on screen.");
+      showToast("ከ 2 በላይ ካርቴላ መክፈት አይቻልም", "info");
       return;
     }
     const openNumbers = new Set(cardsList.map((c) => getCardNumber(c)));
@@ -60,21 +68,24 @@ function App() {
       (c) => !openNumbers.has(getCardNumber(c)),
     );
     if (!availableCard) {
-      alert("All cards are already open.");
+      showToast("ሁሉም ካርቴላዎች ተከፍተዋል", "info");
       return;
     }
     setCardsList((prev) => [...prev, availableCard]);
-  }, [cardsList, getCardNumber]);
+    showToast(`ካርቴላ ቁጥር ${getCardNumber(availableCard)} ተጨምሯል`, "success");
+  }, [cardsList, getCardNumber, showToast]);
 
   const removeCard = useCallback(
     (index) => {
       if (cardsList.length <= 1) {
-        alert("You must keep at least one card.");
+        showToast("ቢያንስ አንድ ካርቴላ መኖር አለበት", "info");
         return;
       }
+      const removedCardNumber = getCardNumber(cardsList[index]);
       setCardsList((prev) => prev.filter((_, idx) => idx !== index));
+      showToast(`ካርቴላ ቁጥር ${removedCardNumber} ተዘግቷል`, "info");
     },
-    [cardsList.length],
+    [cardsList, getCardNumber, showToast],
   );
 
   const clearCardMarks = useCallback((cardId) => {
@@ -83,17 +94,14 @@ function App() {
       ...prev,
       [cardId]: (prev[cardId] || 0) + 1,
     }));
-  }, []);
+    showToast("ምልክቶች ተሰርዘዋል", "info");
+  }, [showToast]);
 
   const toggleCalledNumber = useCallback((num) => {
     if (num === "FREE") return;
     setCalledNumbers((prev) =>
       prev.includes(num) ? prev.filter((n) => n !== num) : [...prev, num],
     );
-  }, []);
-
-  const handleWinDetected = useCallback((winData) => {
-    alert(`🎉 BINGO! You won on ${winData.matches[0].type}!`);
   }, []);
 
   const toggleTheme = useCallback(() => setIsDarkMode((prev) => !prev), []);
@@ -123,99 +131,38 @@ function App() {
     return () => window.removeEventListener("resize", updateSize);
   }, [calculateCardSize]);
 
-  // BINGO ball data
-  const bingoBalls = [
-    { id: 1, letter: "B", color: "bg-red-500" },
-    { id: 2, letter: "I", color: "bg-yellow-400" },
-    { id: 3, letter: "N", color: "bg-blue-400" },
-    { id: 4, letter: "G", color: "bg-green-400" },
-    { id: 5, letter: "O", color: "bg-purple-400" },
-    { id: 6, letter: "B", color: "bg-red-500" },
-    { id: 7, letter: "I", color: "bg-yellow-400" },
-    { id: 8, letter: "N", color: "bg-blue-400" },
-    { id: 9, letter: "G", color: "bg-green-400" },
-    { id: 10, letter: "O", color: "bg-purple-400" },
-    { id: 11, letter: "★", color: "bg-yellow-500" },
-  ];
-
   return (
     <div
       className="h-screen w-screen max-w-[480px] mx-auto flex flex-col relative overflow-hidden"
       style={{ backgroundColor: theme.background }}
     >
-      {/* Glow Effects */}
-      <div
-        className="fixed rounded-full pointer-events-none blur-[70px] transition-colors duration-500"
-        style={{
-          backgroundColor: theme.glowTop,
-          top: "-180px",
-          left: "-150px",
-          width: "450px",
-          height: "450px",
-          animation: "floatGlow 12s ease-in-out infinite",
-        }}
-      />
-      <div
-        className="fixed rounded-full pointer-events-none blur-[70px] transition-colors duration-500"
-        style={{
-          backgroundColor: theme.glowBottom,
-          bottom: "-180px",
-          right: "-150px",
-          width: "500px",
-          height: "500px",
-          animation: "floatGlow 14s ease-in-out infinite reverse",
-        }}
-      />
-
-      {/* BINGO Balls Animation Background */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {bingoBalls.map((ball, index) => {
-          const positions = [
-            "top-[5%] left-[5%] w-[60px] h-[60px]",
-            "top-[15%] right-[8%] w-[45px] h-[45px]",
-            "bottom-[20%] left-[2%] w-[70px] h-[70px]",
-            "bottom-[5%] right-[5%] w-[50px] h-[50px]",
-            "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40px] h-[40px]",
-            "top-[30%] left-[15%] w-[55px] h-[55px]",
-            "bottom-[40%] right-[10%] w-[35px] h-[35px]",
-            "top-[10%] left-[35%] w-[65px] h-[65px]",
-            "bottom-[10%] left-[30%] w-[48px] h-[48px]",
-            "top-[45%] right-[20%] w-[42px] h-[42px]",
-            "top-[5%] left-[45%] w-[35px] h-[35px]",
-          ];
-          const delays = [
-            "0s",
-            "2s",
-            "4s",
-            "1s",
-            "3s",
-            "5s",
-            "6s",
-            "7s",
-            "8s",
-            "9s",
-            "1.5s",
-          ];
-          return (
-            <div
-              key={ball.id}
-              className={`absolute rounded-full flex items-center justify-center font-black text-white shadow-lg opacity-[0.15] animate-float ${ball.color} ${positions[index]}`}
-              style={{
-                animationDuration: `${15 + index * 3}s`,
-                animationDelay: delays[index],
-                textShadow: "0 1px 3px rgba(0,0,0,0.3)",
-                boxShadow:
-                  "inset -3px -3px 8px rgba(0,0,0,0.3), inset 3px 3px 8px rgba(255,255,255,0.3), 0 4px 15px rgba(0,0,0,0.2)",
-                fontSize: index === 10 ? "20px" : "14px",
-              }}
-            >
-              <span className="font-extrabold tracking-wide">
-                {ball.letter}
-              </span>
-            </div>
-          );
-        })}
-      </div>
+      {/* Toast Notification */}
+      {toast && (
+        <div
+          className="fixed top-14 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl backdrop-blur-xl shadow-2xl border flex items-center gap-2 animate-bounce text-sm font-semibold transition-all"
+          style={{
+            backgroundColor: isDarkMode
+              ? "rgba(20, 24, 40, 0.9)"
+              : "rgba(255, 255, 255, 0.95)",
+            borderColor:
+              toast.type === "warning"
+                ? "rgba(239, 68, 68, 0.4)"
+                : toast.type === "success"
+                  ? "rgba(34, 197, 94, 0.4)"
+                  : "rgba(99, 102, 241, 0.4)",
+            color: isDarkMode ? "#ffffff" : "#1e293b",
+          }}
+        >
+          <span>
+            {toast.type === "warning"
+              ? "⚠️"
+              : toast.type === "success"
+                ? "✅"
+                : "ℹ️"}
+          </span>
+          <span>{toast.message}</span>
+        </div>
+      )}
 
       {/* Header - Fixed at top */}
       <div
@@ -267,8 +214,6 @@ function App() {
                   showSearch={true}
                   calledNumbers={calledNumbers}
                   onToggleNumber={toggleCalledNumber}
-                  winningPattern="All common patterns"
-                  onWinDetected={handleWinDetected}
                   totalCards={cardsList.length}
                 />
               </div>

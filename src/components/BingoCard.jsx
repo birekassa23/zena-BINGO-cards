@@ -75,7 +75,7 @@ export default function BingoCard({
             isDark ? "text-white/70" : "text-slate-800/90"
           }`}
         >
-          #{displayCardNumber} · ዘና BINGO
+          {displayCardNumber} · ዘና BINGO
         </span>
       </div>
 
@@ -89,9 +89,15 @@ export default function BingoCard({
                 ? "bg-white/5 text-white border border-white/10 placeholder:text-white/30"
                 : "bg-black/5 text-slate-800 border border-black/10 placeholder:text-slate-400"
             }`}
-            placeholder="Card #"
+            placeholder="ካርቴላ"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleActionPress();
+              }
+            }}
           />
         )}
 

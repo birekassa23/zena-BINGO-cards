@@ -8,13 +8,15 @@
     "sync": "npx cap sync android",
     "open": "npx cap open android",
     "build:android": "npm run build && npx cap sync android",
-    "apk:debug": "cd android && ./gradlew assembleDebug",
-    "apk:release": "cd android && ./gradlew assembleRelease",
-    "apk:legacy": "cd android && ./gradlew assembleDebug -PminSdk=21",
-    "apk:middle": "cd android && ./gradlew assembleDebug -PminSdk=26",
-    "apk:current": "cd android && ./gradlew assembleDebug -PminSdk=33",
-    "apk:all": "npm run build && npx cap sync android && cd android && ./gradlew assembleDebug",
-    "apk:universal": "npm run build && npx cap sync android && cd android && ./gradlew assembleRelease"
+    "apk:debug": "cd android && .\\gradlew.bat assembleDebug",
+    "apk:release": "cd android && .\\gradlew.bat assembleRelease",
+    "apk:legacy": "cd android && .\\gradlew.bat assembleLegacyRelease",
+    "apk:middle": "cd android && .\\gradlew.bat assembleMidRelease",
+    "apk:current": "cd android && .\\gradlew.bat assembleCurrentRelease",
+    "apk:all": "npm run build && npx cap sync android && cd android && .\\gradlew.bat clean assembleLegacyRelease assembleMidRelease assembleCurrentRelease",
+    "apk:universal": "npm run build && npx cap sync android && cd android && .\\gradlew.bat clean assembleRelease",
+    "bundle:release": "npm run build && npx cap sync android && cd android && .\\gradlew.bat clean bundleLegacyRelease",
+    "bundle:all": "npm run build && npx cap sync android && cd android && .\\gradlew.bat clean bundleRelease"
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.5",

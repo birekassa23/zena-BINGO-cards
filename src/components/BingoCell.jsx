@@ -19,6 +19,13 @@ export default function BingoCell({
 
   const handleClick = () => {
     if (isFree) return;
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      try {
+        navigator.vibrate(10);
+      } catch {
+        // Non-blocking fallback
+      }
+    }
     if (onPress) onPress();
   };
 
