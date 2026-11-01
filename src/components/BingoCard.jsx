@@ -180,7 +180,7 @@ export default function BingoCard({
                 ? "bg-white/5 text-white border border-white/10 placeholder:text-white/30"
                 : "bg-black/5 text-slate-800 border border-black/10 placeholder:text-slate-400"
             }`}
-            placeholder="ካርቴላ"
+            placeholder="የካርድ ቁጥር አስገባ"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onKeyDown={(e) => {

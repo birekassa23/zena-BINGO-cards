@@ -78,7 +78,7 @@ function App() {
         (card) => getCardNumber(card) === Number(searchNumber),
       );
       if (!foundCard) {
-        showToast(`ካርቴላ ቁጥር ${searchNumber} አልተገኘም`, "warning");
+        showToast(`የካርድ ቁጥር ${searchNumber} አልተገኘም`, "warning");
         return;
       }
       setCardsList((prev) => {
@@ -86,14 +86,14 @@ function App() {
         updated[index] = foundCard;
         return updated;
       });
-      showToast(`ወደ ካርቴላ ቁጥር ${searchNumber} ተቀይሯል`, "success");
+      showToast(`ወደ ካርድ ቁጥር ${searchNumber} ተቀይሯል`, "success");
     },
     [getCardNumber, showToast],
   );
 
   const handleAddCard = useCallback(() => {
     if (cardsList.length >= 2) {
-      showToast("ከ 2 በላይ ካርቴላ መክፈት አይቻልም", "info");
+      showToast("ከ 2 በላይ ካርድ መክፈት አይቻልም", "info");
       return;
     }
     const openNumbers = new Set(cardsList.map((c) => getCardNumber(c)));
@@ -104,22 +104,22 @@ function App() {
       (c) => !openNumbers.has(getCardNumber(c)),
     );
     if (!availableCard) {
-      showToast("ሁሉም ካርቴላዎች ተከፍተዋል", "info");
+      showToast("ሁሉም ካርዶች ተከፍተዋል", "info");
       return;
     }
     setCardsList((prev) => [...prev, availableCard]);
-    showToast(`ካርቴላ ቁጥር ${getCardNumber(availableCard)} ተጨምሯል`, "success");
+    showToast(`የካርድ ቁጥር ${getCardNumber(availableCard)} ተጨምሯል`, "success");
   }, [cardsList, getCardNumber, showToast]);
 
   const removeCard = useCallback(
     (index) => {
       if (cardsList.length <= 1) {
-        showToast("ቢያንስ አንድ ካርቴላ መኖር አለበት", "info");
+        showToast("ቢያንስ አንድ ካርድ መኖር አለበት", "info");
         return;
       }
       const removedCardNumber = getCardNumber(cardsList[index]);
       setCardsList((prev) => prev.filter((_, idx) => idx !== index));
-      showToast(`ካርቴላ ቁጥር ${removedCardNumber} ተዘግቷል`, "info");
+      showToast(`የካርድ ቁጥር ${removedCardNumber} ተዘግቷል`, "info");
     },
     [cardsList, getCardNumber, showToast],
   );
