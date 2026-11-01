@@ -189,7 +189,10 @@ function App() {
   return (
     <div
       className="h-screen w-screen max-w-[480px] mx-auto flex flex-col relative overflow-hidden transition-colors duration-500"
-      style={{ backgroundColor: theme.background }}
+      style={{
+        backgroundColor: theme.background,
+        color: isDarkMode ? "#ffffff" : "#1e293b",
+      }}
     >
       {/* Toast Notification */}
       {toast && (
