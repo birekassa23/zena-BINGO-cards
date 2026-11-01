@@ -16,22 +16,20 @@
   }
 }
 
-@layer utilities {
-  @keyframes floatGlow1 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(40px, -35px) scale(1.15); }
-  }
-  
-  @keyframes floatGlow2 {
-    0%, 100% { transform: translate(0, 0) scale(1.1); }
-    50% { transform: translate(-35px, 40px) scale(0.95); }
-  }
-  
-  .animate-glow-1 {
-    animation: floatGlow1 12s ease-in-out infinite;
-  }
 
-  .animate-glow-2 {
-    animation: floatGlow2 15s ease-in-out infinite;
+/* Touch device optimizations: disable hover effects on touch */
+@media (hover: none) {
+  .bingo-cell:hover:not(.marked):not(.free) {
+    transform: none !important;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

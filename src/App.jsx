@@ -3,8 +3,7 @@ import { cardsData } from "./data/cardsData";
 import Header from "./components/Header";
 import BingoCard from "./components/BingoCard";
 import Footer from "./components/Footer";
-import ThemePage, { PRESET_COLORS } from "./components/ThemePage";
-import BingoBackgroundAnimation from "./components/BingoBackgroundAnimation";
+import ThemePage from "./components/ThemePage";
 
 // Helper to determine if a color is light or dark for optimal contrast
 function isColorDark(hex) {
@@ -29,26 +28,14 @@ function App() {
   const [backgroundColor, setBackgroundColor] = useState(
     () => localStorage.getItem("zena_bg_color") || "#090a10",
   );
-  const [isAnimationEnabled, setIsAnimationEnabled] = useState(
-    () => localStorage.getItem("zena_bg_anim") !== "false",
-  );
   const [resetTokens, setResetTokens] = useState({});
   const [calledNumbers, setCalledNumbers] = useState([]);
   const [cardSize, setCardSize] = useState(300);
   const [toast, setToast] = useState(null);
+  const [confirmClearOpen, setConfirmClearOpen] = useState(false);
+  const [pendingClearCardId, setPendingClearCardId] = useState(null);
 
   const isDarkMode = useMemo(() => isColorDark(backgroundColor), [backgroundColor]);
-
-  const activePreset = useMemo(() => {
-    return (
-      PRESET_COLORS.find(
-        (p) => p.color.toLowerCase() === backgroundColor.toLowerCase(),
-      ) || {
-        orb1: isDarkMode ? "rgba(99, 102, 241, 0.28)" : "rgba(99, 102, 241, 0.15)",
-        orb2: isDarkMode ? "rgba(253, 203, 110, 0.2)" : "rgba(14, 165, 233, 0.15)",
-      }
-    );
-  }, [backgroundColor, isDarkMode]);
 
   const showToast = useCallback((message, type = "info") => {
     setToast({ message, type, id: Date.now() });
@@ -78,15 +65,6 @@ function App() {
     setBackgroundColor(color);
     localStorage.setItem("zena_bg_color", color);
   }, []);
-
-  const handleToggleAnimation = useCallback(() => {
-    setIsAnimationEnabled((prev) => {
-      const next = !prev;
-      localStorage.setItem("zena_bg_anim", String(next));
-      showToast(next ? "አኒሜሽን በርቷል" : "አኒሜሽን ጠፍቷል", "info");
-      return next;
-    });
-  }, [showToast]);
 
   const toggleQuickTheme = useCallback(() => {
     const nextColor = isDarkMode ? "#f1f5f9" : "#090a10";
@@ -146,14 +124,35 @@ function App() {
     [cardsList, getCardNumber, showToast],
   );
 
-  const clearCardMarks = useCallback((cardId) => {
+  const handleRequestClear = useCallback(
+    (cardId) => {
+      if (calledNumbers.length === 0) {
+        showToast("ምንም ምልክት አልተደረገም", "info");
+        return;
+      }
+      setPendingClearCardId(cardId);
+      setConfirmClearOpen(true);
+    },
+    [calledNumbers.length, showToast],
+  );
+
+  const handleConfirmClear = useCallback(() => {
     setCalledNumbers([]);
-    setResetTokens((prev) => ({
-      ...prev,
-      [cardId]: (prev[cardId] || 0) + 1,
-    }));
-    showToast("ምልክቶች ተሰርዘዋል", "info");
-  }, [showToast]);
+    if (pendingClearCardId) {
+      setResetTokens((prev) => ({
+        ...prev,
+        [pendingClearCardId]: (prev[pendingClearCardId] || 0) + 1,
+      }));
+    }
+    setConfirmClearOpen(false);
+    setPendingClearCardId(null);
+    showToast("ምልክቶች በሙሉ ተሰርዘዋል", "success");
+  }, [pendingClearCardId, showToast]);
+
+  const handleCancelClear = useCallback(() => {
+    setConfirmClearOpen(false);
+    setPendingClearCardId(null);
+  }, []);
 
   const toggleCalledNumber = useCallback((num) => {
     if (num === "FREE") return;
@@ -192,11 +191,6 @@ function App() {
       className="h-screen w-screen max-w-[480px] mx-auto flex flex-col relative overflow-hidden transition-colors duration-500"
       style={{ backgroundColor: theme.background }}
     >
-      {/* Authentic Floating 3D BINGO Balls & Casino Vibe Animation */}
-      {isAnimationEnabled && (
-        <BingoBackgroundAnimation isDarkMode={isDarkMode} />
-      )}
-
       {/* Toast Notification */}
       {toast && (
         <div
@@ -293,7 +287,7 @@ function App() {
                       card={card}
                       isDarkMode={isDarkMode}
                       onRemove={() => removeCard(index)}
-                      onClearMarks={() => clearCardMarks(cardId)}
+                      onClearMarks={() => handleRequestClear(cardId)}
                       onReplace={(num) => handleReplaceCard(index, num)}
                       onAdd={showAddButton ? handleAddCard : null}
                       showSearch={true}
@@ -321,10 +315,60 @@ function App() {
           onBack={() => setCurrentPage("cards")}
           currentColor={backgroundColor}
           onSelectColor={handleSelectColor}
-          isAnimationEnabled={isAnimationEnabled}
-          onToggleAnimation={handleToggleAnimation}
           isDarkMode={isDarkMode}
         />
+      )}
+
+      {/* Confirmation Modal for Clearing Board */}
+      {confirmClearOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div
+            className="w-full max-w-xs rounded-3xl p-5 shadow-2xl border flex flex-col items-center text-center gap-3 backdrop-blur-2xl transition-all"
+            style={{
+              backgroundColor: isDarkMode
+                ? "rgba(22, 27, 46, 0.95)"
+                : "rgba(255, 255, 255, 0.98)",
+              borderColor: isDarkMode
+                ? "rgba(255, 255, 255, 0.12)"
+                : "rgba(0, 0, 0, 0.1)",
+              color: isDarkMode ? "#ffffff" : "#1e293b",
+            }}
+          >
+            <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl bg-red-500/15 text-red-500">
+              ⚠️
+            </div>
+            <div className="font-extrabold text-base">ምልክቶችን ማጥፋት ይፈልጋሉ?</div>
+            <div
+              className="text-xs leading-relaxed"
+              style={{ color: isDarkMode ? "#94a3b8" : "#64748b" }}
+            >
+              ይህ እርምጃ የተመረጡትን {calledNumbers.length} ቁጥሮች በሙሉ ያጠፋል።
+            </div>
+            <div className="flex gap-2 w-full mt-2">
+              <button
+                onClick={handleCancelClear}
+                className="flex-1 py-2 rounded-xl text-xs font-bold border transition-all active:scale-95"
+                style={{
+                  backgroundColor: isDarkMode
+                    ? "rgba(255, 255, 255, 0.08)"
+                    : "rgba(0, 0, 0, 0.05)",
+                  borderColor: isDarkMode
+                    ? "rgba(255, 255, 255, 0.1)"
+                    : "rgba(0, 0, 0, 0.08)",
+                  color: isDarkMode ? "#cbd5e1" : "#475569",
+                }}
+              >
+                ይቅር (Cancel)
+              </button>
+              <button
+                onClick={handleConfirmClear}
+                className="flex-1 py-2 rounded-xl text-xs font-bold bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/30 transition-all active:scale-95"
+              >
+                አዎ፣ አጥፋ
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

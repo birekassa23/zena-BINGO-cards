@@ -8,6 +8,8 @@ export default function BingoCell({
   col,
   isMarked,
   onPress,
+  isDualCard = false,
+  isWinning = false,
 }) {
   const isFree =
     value === "FREE" ||
@@ -32,8 +34,11 @@ export default function BingoCell({
   const themeClass = isDarkMode ? "dark" : "light";
   const markedClass = isMarkedState ? "marked" : "";
   const freeClass = isFree ? "free" : "";
+  const winningClass = isWinning ? "winning-cell" : "";
+  const dualClass = isDualCard ? "dual-cell" : "";
 
-  const cellClassName = `bingo-cell ${themeClass} ${markedClass} ${freeClass}`.trim();
+  const cellClassName =
+    `bingo-cell ${themeClass} ${markedClass} ${freeClass} ${winningClass} ${dualClass}`.trim();
 
   return (
     <div

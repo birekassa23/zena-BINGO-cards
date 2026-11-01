@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Footer.css";
-import developerImg from "../developer.png";
+import developerWebp from "../developer.webp";
+import developerPng from "../developer.png";
 
 export default function Footer({ isDarkMode }) {
   const [imageError, setImageError] = useState(false);
@@ -12,13 +13,16 @@ export default function Footer({ isDarkMode }) {
         {/* Developer Avatar */}
         <div className="footer-avatar-wrapper">
           {!imageError ? (
-            <img
-              src={developerImg}
-              alt="Birehanu Kassa - Developer"
-              className="footer-avatar"
-              onError={() => setImageError(true)}
-              loading="lazy"
-            />
+            <picture>
+              <source srcSet={developerWebp} type="image/webp" />
+              <img
+                src={developerPng}
+                alt="Birehanu Kassa - Developer"
+                className="footer-avatar"
+                onError={() => setImageError(true)}
+                loading="lazy"
+              />
+            </picture>
           ) : (
             <div className="footer-avatar-fallback">BK</div>
           )}
