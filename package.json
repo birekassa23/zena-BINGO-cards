@@ -15,7 +15,7 @@
     "apk:current": "cd android && (./gradlew assembleCurrentRelease || gradlew.bat assembleCurrentRelease)",
     "apk:all": "npm run build && npx cap sync android && cd android && (./gradlew clean assembleLegacyRelease assembleMidRelease assembleCurrentRelease || gradlew.bat clean assembleLegacyRelease assembleMidRelease assembleCurrentRelease)",
     "apk:universal": "npm run build && npx cap sync android && cd android && (./gradlew clean assembleRelease || gradlew.bat clean assembleRelease)",
-    "bundle:release": "npm run build && npx cap sync android && cd android && (./gradlew clean bundleLegacyRelease || gradlew.bat clean bundleLegacyRelease)",
+    "bundle:release": "npm run build && npx cap sync android && cd android && (./gradlew clean bundleRelease || gradlew.bat clean bundleRelease)",
     "bundle:all": "npm run build && npx cap sync android && cd android && (./gradlew clean bundleRelease || gradlew.bat clean bundleRelease)"
   },
   "devDependencies": {

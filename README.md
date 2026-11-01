@@ -46,7 +46,7 @@ To generate the signed Android App Bundle (`.aab`) ready for uploading to Google
 npm run bundle:release
 ```
 **Output location:**
-`android/app/build/outputs/bundle/legacyRelease/app-legacy-release.aab`
+`android/app/build/outputs/bundle/release/app-release.aab`
 
 ---
 
@@ -64,11 +64,11 @@ npm run bundle:release
 
 ## 🚀 Google Play Store Publishing Checklist
 
-1. **Upload AAB**: In [Google Play Console](https://play.google.com/console), go to **Production** (or **Internal Testing**) > **Create new release** and upload `app-legacy-release.aab`.
+1. **Upload AAB**: In [Google Play Console](https://play.google.com/console), go to **Production** (or **Internal Testing**) > **Create new release** and upload `app-release.aab`.
 2. **App Details**:
    - **App Name**: `ዘና BINGO Cards`
-   - **Target SDK**: Android 15 (API 35) *(Pre-configured)*
-   - **Min SDK**: Android 5.0 (API 21) *(Pre-configured, supports 99.5%+ of all Android devices)*
+   - **Target SDK**: Android 16 (API 36) *(Pre-configured for Google Play policy)*
+   - **Min SDK**: Android 7.0 (API 24) *(Pre-configured)*
 3. **Store Listing Assets**:
    - **App Icon**: 512 x 512 px PNG
    - **Feature Graphic**: 1024 x 500 px PNG/JPG

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ዘና BINGO Cards</string>
+    <string name="title_activity_main">ዘና BINGO Cards</string>
+    <string name="package_name">com.zenabingo.cards</string>
+    <string name="custom_url_scheme">com.zenabingo.cards</string>
+</resources>
