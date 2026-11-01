@@ -6,7 +6,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "sync": "npx cap sync android",
-    "open": "npx cap open android",
+    "open": "CAPACITOR_ANDROID_STUDIO_PATH=/snap/bin/android-studio npx cap open android",
     "build:android": "npm run build && npx cap sync android",
     "apk:debug": "cd android && (./gradlew assembleDebug || gradlew.bat assembleDebug)",
     "apk:release": "cd android && (./gradlew assembleRelease || gradlew.bat assembleRelease)",
