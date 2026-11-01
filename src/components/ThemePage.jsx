@@ -125,7 +125,7 @@ export default function ThemePage({
           >
             <div className={`theme-mini-card ${isDarkMode ? "dark" : "light"}`}>
               <div className="theme-mini-card-header">
-                <span>#1 · ዘና BINGO</span>
+                <span>የካርድ ቁጥር 1</span>
                 <span className="theme-mini-win-badge">🏆 BINGO!</span>
               </div>
               <div className="theme-mini-grid">

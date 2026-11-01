@@ -153,11 +153,11 @@ export default function BingoCard({
       {/* Card Header with Win Banner */}
       <div className="flex justify-between items-center mb-[clamp(2px,0.5vw,6px)] flex-shrink-0 px-1">
         <span
-          className={`font-extrabold text-[clamp(10px,1.4vw,15px)] tracking-[clamp(1px,0.2vw,2px)] uppercase whitespace-nowrap ${
-            isDark ? "text-white/80" : "text-slate-800/90"
+          className={`font-extrabold text-[clamp(11px,1.5vw,16px)] tracking-wide whitespace-nowrap ${
+            isDark ? "text-white/90" : "text-slate-800"
           }`}
         >
-          {displayCardNumber} · ዘና BINGO
+          የካርድ ቁጥር {displayCardNumber}
         </span>
 
         {winResult.hasWon && (
