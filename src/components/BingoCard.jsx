@@ -12,6 +12,7 @@ export default function BingoCard({
   onToggleNumber,
   calledNumbers = [],
   totalCards = 1,
+  onWinStateChange,
 }) {
   const headers = ["B", "I", "N", "G", "O"];
   const [searchValue, setSearchValue] = useState("");
@@ -104,7 +105,10 @@ export default function BingoCard({
         // Fallback
       }
     }
-  }, [winResult.hasWon]);
+    if (onWinStateChange) {
+      onWinStateChange(displayCardNumber, winResult.hasWon);
+    }
+  }, [winResult.hasWon, displayCardNumber, onWinStateChange]);
 
   const currentCardNumber = displayCardNumber;
   const enteredNum = parseInt(searchValue, 10);

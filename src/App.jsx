@@ -1,53 +1,35 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
-import { cardsData } from "./data/cardsData";
 import Header from "./components/Header";
 import BingoCard from "./components/BingoCard";
 import Footer from "./components/Footer";
 import ThemePage from "./components/ThemePage";
-
-// Helper to determine if a color is light or dark for optimal contrast
-function isColorDark(hex) {
-  if (!hex || typeof hex !== "string" || hex.charAt(0) !== "#") return true;
-  let c = hex.substring(1);
-  if (c.length === 3) {
-    c = c
-      .split("")
-      .map((x) => x + x)
-      .join("");
-  }
-  const r = parseInt(c.substring(0, 2), 16) || 0;
-  const g = parseInt(c.substring(2, 4), 16) || 0;
-  const b = parseInt(c.substring(4, 6), 16) || 0;
-  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-  return yiq < 140;
-}
+import { useBingoGame, getCardNumber } from "./hooks/useBingoGame";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("cards"); // 'cards' | 'theme'
-  const [cardsList, setCardsList] = useState([cardsData[0]]);
-  const [backgroundColor, setBackgroundColor] = useState(
-    () => localStorage.getItem("zena_bg_color") || "#090a10",
-  );
-  const [resetTokens, setResetTokens] = useState({});
-  const [calledNumbers, setCalledNumbers] = useState([]);
+  const {
+    currentPage,
+    setCurrentPage,
+    toast,
+    soundOn,
+    toggleSound,
+    backgroundColor,
+    isDarkMode,
+    handleSelectColor,
+    toggleQuickTheme,
+    cardsList,
+    calledNumbers,
+    toggleCalledNumber,
+    handleReplaceCard,
+    handleAddCard,
+    removeCard,
+    confirmClearOpen,
+    handleRequestClear,
+    handleConfirmClear,
+    handleCancelClear,
+    handleCardWin,
+  } = useBingoGame();
+
   const [cardSize, setCardSize] = useState(300);
-  const [toast, setToast] = useState(null);
-  const [confirmClearOpen, setConfirmClearOpen] = useState(false);
-  const [pendingClearCardId, setPendingClearCardId] = useState(null);
-
-  const isDarkMode = useMemo(() => isColorDark(backgroundColor), [backgroundColor]);
-
-  const showToast = useCallback((message, type = "info") => {
-    setToast({ message, type, id: Date.now() });
-  }, []);
-
-  useEffect(() => {
-    if (!toast) return;
-    const timer = setTimeout(() => {
-      setToast(null);
-    }, 2500);
-    return () => clearTimeout(timer);
-  }, [toast]);
 
   const theme = useMemo(
     () => ({
@@ -56,112 +38,7 @@ function App() {
     [backgroundColor],
   );
 
-  const getCardNumber = useCallback(
-    (card) => (card ? card.card_number || card.icard_number : null),
-    [],
-  );
-
-  const handleSelectColor = useCallback((color) => {
-    setBackgroundColor(color);
-    localStorage.setItem("zena_bg_color", color);
-  }, []);
-
-  const toggleQuickTheme = useCallback(() => {
-    const nextColor = isDarkMode ? "#f1f5f9" : "#090a10";
-    handleSelectColor(nextColor);
-    showToast(isDarkMode ? "የቀን ገጽታ (Light)" : "የማታ ገጽታ (Dark)", "info");
-  }, [isDarkMode, handleSelectColor, showToast]);
-
-  const handleReplaceCard = useCallback(
-    (index, searchNumber) => {
-      const foundCard = cardsData.find(
-        (card) => getCardNumber(card) === Number(searchNumber),
-      );
-      if (!foundCard) {
-        showToast(`የካርድ ቁጥር ${searchNumber} አልተገኘም`, "warning");
-        return;
-      }
-      setCardsList((prev) => {
-        const updated = [...prev];
-        updated[index] = foundCard;
-        return updated;
-      });
-      showToast(`ወደ ካርድ ቁጥር ${searchNumber} ተቀይሯል`, "success");
-    },
-    [getCardNumber, showToast],
-  );
-
-  const handleAddCard = useCallback(() => {
-    if (cardsList.length >= 2) {
-      showToast("ከ 2 በላይ ካርድ መክፈት አይቻልም", "info");
-      return;
-    }
-    const openNumbers = new Set(cardsList.map((c) => getCardNumber(c)));
-    const sortedCards = [...cardsData].sort(
-      (a, b) => getCardNumber(a) - getCardNumber(b),
-    );
-    const availableCard = sortedCards.find(
-      (c) => !openNumbers.has(getCardNumber(c)),
-    );
-    if (!availableCard) {
-      showToast("ሁሉም ካርዶች ተከፍተዋል", "info");
-      return;
-    }
-    setCardsList((prev) => [...prev, availableCard]);
-    showToast(`የካርድ ቁጥር ${getCardNumber(availableCard)} ተጨምሯል`, "success");
-  }, [cardsList, getCardNumber, showToast]);
-
-  const removeCard = useCallback(
-    (index) => {
-      if (cardsList.length <= 1) {
-        showToast("ቢያንስ አንድ ካርድ መኖር አለበት", "info");
-        return;
-      }
-      const removedCardNumber = getCardNumber(cardsList[index]);
-      setCardsList((prev) => prev.filter((_, idx) => idx !== index));
-      showToast(`የካርድ ቁጥር ${removedCardNumber} ተዘግቷል`, "info");
-    },
-    [cardsList, getCardNumber, showToast],
-  );
-
-  const handleRequestClear = useCallback(
-    (cardId) => {
-      if (calledNumbers.length === 0) {
-        showToast("ምንም ምልክት አልተደረገም", "info");
-        return;
-      }
-      setPendingClearCardId(cardId);
-      setConfirmClearOpen(true);
-    },
-    [calledNumbers.length, showToast],
-  );
-
-  const handleConfirmClear = useCallback(() => {
-    setCalledNumbers([]);
-    if (pendingClearCardId) {
-      setResetTokens((prev) => ({
-        ...prev,
-        [pendingClearCardId]: (prev[pendingClearCardId] || 0) + 1,
-      }));
-    }
-    setConfirmClearOpen(false);
-    setPendingClearCardId(null);
-    showToast("ምልክቶች በሙሉ ተሰርዘዋል", "success");
-  }, [pendingClearCardId, showToast]);
-
-  const handleCancelClear = useCallback(() => {
-    setConfirmClearOpen(false);
-    setPendingClearCardId(null);
-  }, []);
-
-  const toggleCalledNumber = useCallback((num) => {
-    if (num === "FREE") return;
-    setCalledNumbers((prev) =>
-      prev.includes(num) ? prev.filter((n) => n !== num) : [...prev, num],
-    );
-  }, []);
-
-  // Calculate card size
+  // Responsive card size calculation based on available screen space
   const calculateCardSize = useCallback(() => {
     const maxWidth = Math.min(window.innerWidth - 32, 460);
     const headerHeight = 70;
@@ -188,10 +65,11 @@ function App() {
 
   return (
     <div
-      className="h-screen w-screen max-w-[480px] mx-auto flex flex-col relative overflow-hidden transition-colors duration-500"
+      className="w-screen max-w-[480px] mx-auto flex flex-col relative overflow-hidden transition-colors duration-500 pt-[env(safe-area-inset-top,0px)]"
       style={{
         backgroundColor: theme.background,
         color: isDarkMode ? "#ffffff" : "#1e293b",
+        height: "100dvh",
       }}
     >
       {/* Toast Notification */}
@@ -232,8 +110,24 @@ function App() {
           >
             <Header theme={theme} isDarkMode={isDarkMode} />
 
-            {/* Header Controls: Palette Page & Quick Theme */}
-            <div className="flex items-center gap-2">
+            {/* Header Controls: Sound Toggle, Palette Page & Quick Theme */}
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {/* Sound Toggle (🔊 / 🔇) */}
+              <button
+                className="w-9 h-9 rounded-full border border-white/10 backdrop-blur-md font-bold text-base flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md"
+                style={{
+                  backgroundColor: isDarkMode
+                    ? "rgba(255,255,255,0.08)"
+                    : "rgba(255,255,255,0.85)",
+                  color: isDarkMode ? "#ffffff" : "#1e293b",
+                }}
+                onClick={toggleSound}
+                aria-label={soundOn ? "ድምፅ አጥፋ (Mute)" : "ድምፅ አብራ (Unmute)"}
+                title={soundOn ? "ድምፅ በርቷል (Sound ON)" : "ድምፅ ጠፍቷል (Sound OFF)"}
+              >
+                {soundOn ? "🔊" : "🔇"}
+              </button>
+
               {/* Navigate to Theme Settings Page */}
               <button
                 className="w-9 h-9 rounded-full border border-white/10 backdrop-blur-md font-bold text-base flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md"
@@ -252,7 +146,7 @@ function App() {
 
               {/* Quick Theme Toggle */}
               <button
-                className="px-3.5 py-1.5 rounded-full border border-white/10 backdrop-blur-md font-bold text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
+                className="px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-md font-bold text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
                 style={{
                   backgroundColor: isDarkMode
                     ? "rgba(255,255,255,0.08)"
@@ -273,7 +167,6 @@ function App() {
               {/* Cards Stack */}
               {cardsList.map((card, index) => {
                 const cardId = getCardNumber(card);
-                const resetToken = resetTokens[cardId] || 0;
                 const showAddButton = index === 0 && cardsList.length < 2;
 
                 return (
@@ -286,7 +179,6 @@ function App() {
                     }}
                   >
                     <BingoCard
-                      key={`${cardId}-version-${resetToken}`}
                       card={card}
                       isDarkMode={isDarkMode}
                       onRemove={() => removeCard(index)}
@@ -297,6 +189,7 @@ function App() {
                       calledNumbers={calledNumbers}
                       onToggleNumber={toggleCalledNumber}
                       totalCards={cardsList.length}
+                      onWinStateChange={handleCardWin}
                     />
                   </div>
                 );
@@ -307,8 +200,11 @@ function App() {
                 <Footer isDarkMode={isDarkMode} />
               </div>
 
-              {/* Extra bottom padding for comfortable scrolling */}
-              <div className="h-6 flex-shrink-0" />
+              {/* Extra bottom padding for comfortable scrolling above the 3-button navigation bar */}
+              <div
+                className="h-8 flex-shrink-0"
+                style={{ paddingBottom: "env(safe-area-inset-bottom, 16px)" }}
+              />
             </div>
           </div>
         </>
