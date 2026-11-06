@@ -102,68 +102,66 @@ function App() {
 
       {/* PAGE 1: BINGO CARDS VIEW */}
       {currentPage === "cards" ? (
-        <>
-          {/* Header - Fixed at top */}
-          <div
-            className="flex justify-between items-center py-2 px-3 relative z-10 flex-shrink-0 border-b border-white/5"
-            style={{ backgroundColor: "transparent" }}
-          >
-            <Header theme={theme} isDarkMode={isDarkMode} />
+        /* Scrollable Content Container (Header scrolls with the page) */
+        <div className="flex-1 overflow-y-auto overflow-x-hidden relative z-10 w-full">
+          <div className="flex flex-col items-center gap-3 py-2 px-3 w-full max-w-[460px] mx-auto min-h-full">
+            {/* Header - Scrolls with the page */}
+            <div
+              className="flex justify-between items-center py-2 px-1 w-full border-b border-white/5 flex-shrink-0"
+              style={{ backgroundColor: "transparent" }}
+            >
+              <Header theme={theme} isDarkMode={isDarkMode} />
 
-            {/* Header Controls: Sound Toggle, Palette Page & Quick Theme */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              {/* Sound Toggle (🔊 / 🔇) */}
-              <button
-                className="w-9 h-9 rounded-full border border-white/10 backdrop-blur-md font-bold text-base flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md"
-                style={{
-                  backgroundColor: isDarkMode
-                    ? "rgba(255,255,255,0.08)"
-                    : "rgba(255,255,255,0.85)",
-                  color: isDarkMode ? "#ffffff" : "#1e293b",
-                }}
-                onClick={toggleSound}
-                aria-label={soundOn ? "ድምፅ አጥፋ (Mute)" : "ድምፅ አብራ (Unmute)"}
-                title={soundOn ? "ድምፅ በርቷል (Sound ON)" : "ድምፅ ጠፍቷል (Sound OFF)"}
-              >
-                {soundOn ? "🔊" : "🔇"}
-              </button>
+              {/* Header Controls: Sound Toggle, Palette Page & Quick Theme */}
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                {/* Sound Toggle (🔊 / 🔇) */}
+                <button
+                  className="w-9 h-9 rounded-full border border-white/10 backdrop-blur-md font-bold text-base flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md"
+                  style={{
+                    backgroundColor: isDarkMode
+                      ? "rgba(255,255,255,0.08)"
+                      : "rgba(255,255,255,0.85)",
+                    color: isDarkMode ? "#ffffff" : "#1e293b",
+                  }}
+                  onClick={toggleSound}
+                  aria-label={soundOn ? "ድምፅ አጥፋ (Mute)" : "ድምፅ አብራ (Unmute)"}
+                  title={soundOn ? "ድምፅ በርቷል (Sound ON)" : "ድምፅ ጠፍቷል (Sound OFF)"}
+                >
+                  {soundOn ? "🔊" : "🔇"}
+                </button>
 
-              {/* Navigate to Theme Settings Page */}
-              <button
-                className="w-9 h-9 rounded-full border border-white/10 backdrop-blur-md font-bold text-base flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md"
-                style={{
-                  backgroundColor: isDarkMode
-                    ? "rgba(255,255,255,0.08)"
-                    : "rgba(255,255,255,0.85)",
-                  color: isDarkMode ? "#ffffff" : "#1e293b",
-                }}
-                onClick={() => setCurrentPage("theme")}
-                aria-label="የጀርባ ገጽታ ማስተካከያ"
-                title="የጀርባ ገጽታ ማስተካከያ (Background Settings)"
-              >
-                🎨
-              </button>
+                {/* Navigate to Theme Settings Page */}
+                <button
+                  className="w-9 h-9 rounded-full border border-white/10 backdrop-blur-md font-bold text-base flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md"
+                  style={{
+                    backgroundColor: isDarkMode
+                      ? "rgba(255,255,255,0.08)"
+                      : "rgba(255,255,255,0.85)",
+                    color: isDarkMode ? "#ffffff" : "#1e293b",
+                  }}
+                  onClick={() => setCurrentPage("theme")}
+                  aria-label="የጀርባ ገጽታ ማስተካከያ"
+                  title="የጀርባ ገጽታ ማስተካከያ (Background Settings)"
+                >
+                  🎨
+                </button>
 
-              {/* Quick Theme Toggle */}
-              <button
-                className="px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-md font-bold text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
-                style={{
-                  backgroundColor: isDarkMode
-                    ? "rgba(255,255,255,0.08)"
-                    : "rgba(255,255,255,0.85)",
-                  color: isDarkMode ? "#fdcb6e" : "#4c1d95",
-                }}
-                onClick={toggleQuickTheme}
-                aria-label="Toggle theme"
-              >
-                {isDarkMode ? "☀️ Light" : "🌙 Dark"}
-              </button>
+                {/* Quick Theme Toggle */}
+                <button
+                  className="px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-md font-bold text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
+                  style={{
+                    backgroundColor: isDarkMode
+                      ? "rgba(255,255,255,0.08)"
+                      : "rgba(255,255,255,0.85)",
+                    color: isDarkMode ? "#fdcb6e" : "#4c1d95",
+                  }}
+                  onClick={toggleQuickTheme}
+                  aria-label="Toggle theme"
+                >
+                  {isDarkMode ? "☀️ Light" : "🌙 Dark"}
+                </button>
+              </div>
             </div>
-          </div>
-
-          {/* Scrollable Content Container */}
-          <div className="flex-1 overflow-y-auto overflow-x-hidden relative z-10">
-            <div className="flex flex-col items-center gap-4 py-4 px-3 w-full max-w-[460px] mx-auto min-h-full">
               {/* Cards Stack */}
               {cardsList.map((card, index) => {
                 const cardId = getCardNumber(card);
@@ -207,8 +205,7 @@ function App() {
               />
             </div>
           </div>
-        </>
-      ) : (
+        ) : (
         /* PAGE 2: STANDALONE THEME & BACKGROUND SETTINGS PAGE */
         <ThemePage
           onBack={() => setCurrentPage("cards")}
