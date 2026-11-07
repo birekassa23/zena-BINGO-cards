@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Footer.css";
 import developerWebp from "../developer.webp";
 import developerPng from "../developer.png";
+import { IconPhone, IconMail } from "./Icons";
 
 export default function Footer({ isDarkMode }) {
   const [imageError, setImageError] = useState(false);
@@ -47,7 +48,7 @@ export default function Footer({ isDarkMode }) {
               className="footer-contact"
               aria-label="Call Birehanu Kassa"
             >
-              <span className="footer-icon">📞</span>
+              <IconPhone className="footer-icon w-3.5 h-3.5 text-emerald-400" />
               <span>+251 917 828 062</span>
             </a>
             <a
@@ -55,7 +56,7 @@ export default function Footer({ isDarkMode }) {
               className="footer-contact"
               aria-label="Email Birehanu Kassa"
             >
-              <span className="footer-icon">✉️</span>
+              <IconMail className="footer-icon w-3.5 h-3.5 text-blue-400" />
               <span>birekassa17828062@gmail.com</span>
             </a>
           </div>

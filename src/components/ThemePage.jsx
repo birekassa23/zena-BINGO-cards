@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import "./ThemePage.css";
+import { IconArrowBack, IconPalette, IconCheck, IconRefresh } from "./Icons";
 
 // 12 Curated, highly distinct presets (8 rich darks, 4 clean lights) -> perfect 4x3 grid
 export const PRESET_COLORS = [
@@ -72,7 +73,7 @@ export default function ThemePage({
               color: item.isDark ? "#fdcb6e" : "#4f46e5",
             }}
           >
-            ✓
+            <IconCheck className="w-4 h-4" />
           </span>
         )}
         <span className="theme-swatch-tooltip">{item.name}</span>
@@ -85,28 +86,29 @@ export default function ThemePage({
       {/* Symmetrical Header */}
       <div className="theme-page-header">
         <button
-          className="theme-back-button"
+          className="theme-back-button flex items-center gap-1"
           onClick={onBack}
           aria-label="ተመለስ"
         >
-          <span className="theme-back-arrow">←</span>
+          <IconArrowBack className="theme-back-arrow w-4 h-4" />
           <span className="theme-back-text">ተመለስ</span>
         </button>
 
-        <div className="theme-page-title-badge">
-          <span className="theme-header-icon">🎨</span>
+        <div className="theme-page-title-badge flex items-center gap-1.5">
+          <IconPalette className="theme-header-icon w-5 h-5 text-indigo-400" />
           <span className="theme-header-title">የጀርባ ገጽታ</span>
         </div>
 
         <button
-          className="theme-reset-button"
+          className="theme-reset-button flex items-center gap-1"
           onClick={() => {
             onSelectColor("#090a10");
             setCustomColor("#090a10");
           }}
           title="ወደ ነባሪ መልስ"
         >
-          ↻ ነባሪ
+          <IconRefresh className="w-3.5 h-3.5" />
+          <span>ነባሪ</span>
         </button>
       </div>
 

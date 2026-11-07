@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import BingoCell from "./BingoCell";
+import { IconTrophy, IconRefresh, IconPlus, IconClose } from "./Icons";
 
 export default function BingoCard({
   card,
@@ -166,7 +167,7 @@ export default function BingoCard({
 
         {winResult.hasWon && (
           <span className="px-2 py-0.5 rounded-full text-[clamp(10px,1.2vw,12px)] font-black bg-gradient-to-r from-emerald-400 to-cyan-400 text-slate-950 shadow-md animate-pulse flex items-center gap-1">
-            <span>🏆</span>
+            <IconTrophy className="w-3.5 h-3.5 flex-shrink-0" />
             <span>ቢንጎ! (BINGO)</span>
           </span>
         )}
@@ -176,6 +177,8 @@ export default function BingoCard({
       <div className="flex items-center gap-[clamp(4px,0.6vw,8px)] mb-[clamp(2px,0.5vw,6px)] flex-shrink-0 w-full">
         {showSearch && (
           <input
+            id={`card-search-input-${displayCardNumber}`}
+            name={`card_search_${displayCardNumber}`}
             type="number"
             className={`flex-[0_0_50%] min-w-0 ${
               isDual ? "h-[clamp(26px,3.2vw,36px)]" : "h-[clamp(28px,4vw,42px)]"
@@ -210,8 +213,9 @@ export default function BingoCard({
             }`}
             onClick={handleActionPress}
             title={isActionActive ? "Replace Card" : "Clear Marks"}
+            aria-label={isActionActive ? "Replace Card" : "Clear Marks"}
           >
-            ↻
+            <IconRefresh className="w-5 h-5" />
           </button>
 
           {/* Add Button (+) or Remove Button (✕) */}
@@ -228,7 +232,7 @@ export default function BingoCard({
               title="Add Card"
               aria-label="Add card"
             >
-              +
+              <IconPlus className="w-5 h-5" />
             </button>
           ) : (
             onRemove && (
@@ -244,7 +248,7 @@ export default function BingoCard({
                 aria-label="Remove card"
                 title="Remove Card"
               >
-                ✕
+                <IconClose className="w-5 h-5" />
               </button>
             )
           )}

@@ -4,6 +4,16 @@ import BingoCard from "./components/BingoCard";
 import Footer from "./components/Footer";
 import ThemePage from "./components/ThemePage";
 import { useBingoGame, getCardNumber } from "./hooks/useBingoGame";
+import {
+  IconVolumeOn,
+  IconVolumeOff,
+  IconPalette,
+  IconSun,
+  IconMoon,
+  IconWarning,
+  IconCheck,
+  IconInfo,
+} from "./components/Icons";
 
 function App() {
   const {
@@ -89,12 +99,14 @@ function App() {
             color: isDarkMode ? "#ffffff" : "#1e293b",
           }}
         >
-          <span>
-            {toast.type === "warning"
-              ? "⚠️"
-              : toast.type === "success"
-                ? "✅"
-                : "ℹ️"}
+          <span className="flex-shrink-0">
+            {toast.type === "warning" ? (
+              <IconWarning className="w-4 h-4 text-amber-400" />
+            ) : toast.type === "success" ? (
+              <IconCheck className="w-4 h-4 text-emerald-400" />
+            ) : (
+              <IconInfo className="w-4 h-4 text-indigo-400" />
+            )}
           </span>
           <span>{toast.message}</span>
         </div>
@@ -114,7 +126,7 @@ function App() {
 
               {/* Header Controls: Sound Toggle, Palette Page & Quick Theme */}
               <div className="flex items-center gap-1.5 sm:gap-2">
-                {/* Sound Toggle (🔊 / 🔇) */}
+                {/* Sound Toggle */}
                 <button
                   className="w-9 h-9 rounded-full border border-white/10 backdrop-blur-md font-bold text-base flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md"
                   style={{
@@ -127,7 +139,11 @@ function App() {
                   aria-label={soundOn ? "ድምፅ አጥፋ (Mute)" : "ድምፅ አብራ (Unmute)"}
                   title={soundOn ? "ድምፅ በርቷል (Sound ON)" : "ድምፅ ጠፍቷል (Sound OFF)"}
                 >
-                  {soundOn ? "🔊" : "🔇"}
+                  {soundOn ? (
+                    <IconVolumeOn className="w-5 h-5 text-amber-400" />
+                  ) : (
+                    <IconVolumeOff className="w-5 h-5 text-slate-400" />
+                  )}
                 </button>
 
                 {/* Navigate to Theme Settings Page */}
@@ -143,12 +159,12 @@ function App() {
                   aria-label="የጀርባ ገጽታ ማስተካከያ"
                   title="የጀርባ ገጽታ ማስተካከያ (Background Settings)"
                 >
-                  🎨
+                  <IconPalette className="w-5 h-5 text-indigo-400" />
                 </button>
 
                 {/* Quick Theme Toggle */}
                 <button
-                  className="px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-md font-bold text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
+                  className="px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-md font-bold text-xs transition-all hover:scale-105 active:scale-95 shadow-md flex items-center gap-1.5"
                   style={{
                     backgroundColor: isDarkMode
                       ? "rgba(255,255,255,0.08)"
@@ -158,7 +174,17 @@ function App() {
                   onClick={toggleQuickTheme}
                   aria-label="Toggle theme"
                 >
-                  {isDarkMode ? "☀️ Light" : "🌙 Dark"}
+                  {isDarkMode ? (
+                    <>
+                      <IconSun className="w-3.5 h-3.5 text-amber-400" />
+                      <span>Light</span>
+                    </>
+                  ) : (
+                    <>
+                      <IconMoon className="w-3.5 h-3.5 text-purple-700" />
+                      <span>Dark</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -230,8 +256,8 @@ function App() {
               color: isDarkMode ? "#ffffff" : "#1e293b",
             }}
           >
-            <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl bg-red-500/15 text-red-500">
-              ⚠️
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-red-500/15 text-red-500">
+              <IconWarning className="w-6 h-6 text-red-500" />
             </div>
             <div className="font-extrabold text-base">ምልክቶችን ማጥፋት ይፈልጋሉ?</div>
             <div

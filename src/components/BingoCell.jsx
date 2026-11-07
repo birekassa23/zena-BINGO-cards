@@ -1,5 +1,6 @@
 import React from "react";
 import "./BingoCell.css";
+import { IconStar } from "./Icons";
 
 export default function BingoCell({
   value,
@@ -56,7 +57,9 @@ export default function BingoCell({
       }}
     >
       {isFree ? (
-        <span className="cell-icon">★</span>
+        <span className="cell-icon flex items-center justify-center w-full h-full">
+          <IconStar className="w-[60%] h-[60%]" />
+        </span>
       ) : (
         <span className="cell-value">{value}</span>
       )}
