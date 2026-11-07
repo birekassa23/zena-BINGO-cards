@@ -51,16 +51,17 @@ function App() {
   // Responsive card size calculation based on available screen space
   const calculateCardSize = useCallback(() => {
     const maxWidth = Math.min(window.innerWidth - 32, 460);
-    const headerHeight = 70;
-    const padding = 40;
-    const gap = 16;
     const cardCount = cardsList.length;
 
-    const availableHeight = window.innerHeight - headerHeight - padding;
-    const maxCardHeight = (availableHeight - (cardCount - 1) * gap) / cardCount;
-
-    const size = Math.min(maxWidth, maxCardHeight, 460);
-    return Math.max(size, 200);
+    if (cardCount === 1) {
+      // Single card: fills available height comfortably up to 460px
+      const availableHeight = window.innerHeight - 110;
+      return Math.min(maxWidth, availableHeight, 460);
+    } else {
+      // Dual cards: give each card comfortable proportions (340px - 410px)
+      // so cells remain well-proportioned and numbers stay large and bold
+      return Math.min(Math.max(maxWidth * 0.96, 340), 410);
+    }
   }, [cardsList.length]);
 
   useEffect(() => {
@@ -188,50 +189,50 @@ function App() {
                 </button>
               </div>
             </div>
-              {/* Cards Stack */}
-              {cardsList.map((card, index) => {
-                const cardId = getCardNumber(card);
-                const showAddButton = index === 0 && cardsList.length < 2;
+            {/* Cards Stack */}
+            {cardsList.map((card, index) => {
+              const cardId = getCardNumber(card);
+              const showAddButton = index === 0 && cardsList.length < 2;
 
-                return (
-                  <div
-                    key={`${cardId}-${index}`}
-                    className="w-full flex items-center justify-center flex-shrink-0 transition-all duration-300"
-                    style={{
-                      height: cardSize,
-                      maxHeight: "460px",
-                    }}
-                  >
-                    <BingoCard
-                      card={card}
-                      isDarkMode={isDarkMode}
-                      onRemove={() => removeCard(index)}
-                      onClearMarks={() => handleRequestClear(cardId)}
-                      onReplace={(num) => handleReplaceCard(index, num)}
-                      onAdd={showAddButton ? handleAddCard : null}
-                      showSearch={true}
-                      calledNumbers={calledNumbers}
-                      onToggleNumber={toggleCalledNumber}
-                      totalCards={cardsList.length}
-                      onWinStateChange={handleCardWin}
-                    />
-                  </div>
-                );
-              })}
+              return (
+                <div
+                  key={`${cardId}-${index}`}
+                  className="w-full flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                  style={{
+                    height: cardSize,
+                    maxHeight: "460px",
+                  }}
+                >
+                  <BingoCard
+                    card={card}
+                    isDarkMode={isDarkMode}
+                    onRemove={() => removeCard(index)}
+                    onClearMarks={() => handleRequestClear(cardId)}
+                    onReplace={(num) => handleReplaceCard(index, num)}
+                    onAdd={showAddButton ? handleAddCard : null}
+                    showSearch={true}
+                    calledNumbers={calledNumbers}
+                    onToggleNumber={toggleCalledNumber}
+                    totalCards={cardsList.length}
+                    onWinStateChange={handleCardWin}
+                  />
+                </div>
+              );
+            })}
 
-              {/* Footer aligned perfectly with card width constraints */}
-              <div className="w-full">
-                <Footer isDarkMode={isDarkMode} />
-              </div>
-
-              {/* Extra bottom padding for comfortable scrolling above the 3-button navigation bar */}
-              <div
-                className="h-8 flex-shrink-0"
-                style={{ paddingBottom: "env(safe-area-inset-bottom, 16px)" }}
-              />
+            {/* Footer aligned perfectly with card width constraints */}
+            <div className="w-full">
+              <Footer isDarkMode={isDarkMode} />
             </div>
+
+            {/* Extra bottom padding for comfortable scrolling above the 3-button navigation bar */}
+            <div
+              className="h-8 flex-shrink-0"
+              style={{ paddingBottom: "env(safe-area-inset-bottom, 16px)" }}
+            />
           </div>
-        ) : (
+        </div>
+      ) : (
         /* PAGE 2: STANDALONE THEME & BACKGROUND SETTINGS PAGE */
         <ThemePage
           onBack={() => setCurrentPage("cards")}

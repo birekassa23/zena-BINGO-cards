@@ -143,24 +143,21 @@ export default function BingoCard({
 
   return (
     <div
-      className={`w-full h-full flex flex-col rounded-2xl backdrop-blur-xl ${
-        isDual ? "dual-card p-[clamp(6px,1.2vw,12px)]" : "single-card p-[clamp(8px,1.8vw,16px)]"
-      } overflow-hidden shadow-2xl transition-all duration-300 ${
-        winResult.hasWon
+      className={`w-full h-full flex flex-col rounded-2xl backdrop-blur-xl ${isDual ? "dual-card p-[clamp(6px,1.2vw,12px)]" : "single-card p-[clamp(8px,1.8vw,16px)]"
+        } overflow-hidden shadow-2xl transition-all duration-300 ${winResult.hasWon
           ? isDark
             ? "bg-[rgba(20,28,40,0.85)] border-2 border-emerald-400/60 shadow-emerald-500/20"
             : "bg-white/95 border-2 border-emerald-500/60 shadow-emerald-500/20"
           : isDark
             ? "bg-[rgba(20,22,34,0.75)] border border-white/10"
             : "bg-white/85 border border-black/10"
-      }`}
+        }`}
     >
       {/* Card Header with Win Banner */}
       <div className="flex justify-between items-center mb-[clamp(2px,0.5vw,6px)] flex-shrink-0 px-1">
         <span
-          className={`font-extrabold text-[clamp(11px,1.5vw,16px)] tracking-wide whitespace-nowrap ${
-            isDark ? "text-white/90" : "text-slate-800"
-          }`}
+          className={`font-extrabold text-[clamp(11px,1.5vw,16px)] tracking-wide whitespace-nowrap ${isDark ? "text-white/90" : "text-slate-800"
+            }`}
         >
           የካርድ ቁጥር {displayCardNumber}
         </span>
@@ -180,13 +177,11 @@ export default function BingoCard({
             id={`card-search-input-${displayCardNumber}`}
             name={`card_search_${displayCardNumber}`}
             type="number"
-            className={`flex-[0_0_50%] min-w-0 ${
-              isDual ? "h-[clamp(26px,3.2vw,36px)]" : "h-[clamp(28px,4vw,42px)]"
-            } rounded-[clamp(8px,1vw,12px)] px-[clamp(8px,1vw,14px)] text-[clamp(12px,1.3vw,16px)] font-semibold outline-none transition-all ${
-              isDark
+            className={`flex-[0_0_50%] min-w-0 ${isDual ? "h-[clamp(26px,3.2vw,36px)]" : "h-[clamp(28px,4vw,42px)]"
+              } rounded-[clamp(8px,1vw,12px)] px-[clamp(8px,1vw,14px)] text-[clamp(12px,1.3vw,16px)] font-semibold outline-none transition-all ${isDark
                 ? "bg-white/5 text-white border border-white/10 placeholder:text-white/30"
                 : "bg-black/5 text-slate-800 border border-black/10 placeholder:text-slate-400"
-            }`}
+              }`}
             placeholder="የካርድ ቁጥር አስገባ"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
@@ -202,15 +197,13 @@ export default function BingoCard({
         <div className="flex-[0_0_50%] flex gap-[clamp(4px,0.6vw,8px)] min-w-0">
           {/* Swap/Clear Button */}
           <button
-            className={`flex-1 ${
-              isDual ? "h-[clamp(26px,3.2vw,36px)]" : "h-[clamp(28px,4vw,42px)]"
-            } rounded-[clamp(8px,1vw,12px)] text-[clamp(16px,2vw,22px)] font-extrabold transition-all active:scale-90 flex items-center justify-center ${
-              isActionActive
+            className={`flex-1 ${isDual ? "h-[clamp(26px,3.2vw,36px)]" : "h-[clamp(28px,4vw,42px)]"
+              } rounded-[clamp(8px,1vw,12px)] text-[clamp(16px,2vw,22px)] font-extrabold transition-all active:scale-90 flex items-center justify-center ${isActionActive
                 ? "bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-lg shadow-blue-500/40 hover:scale-105"
                 : isDark
                   ? "bg-white/10 text-white border border-white/10 hover:bg-white/20 hover:scale-105"
                   : "bg-black/5 text-slate-800 border border-black/5 hover:bg-black/10 hover:scale-105"
-            }`}
+              }`}
             onClick={handleActionPress}
             title={isActionActive ? "Replace Card" : "Clear Marks"}
             aria-label={isActionActive ? "Replace Card" : "Clear Marks"}
@@ -221,13 +214,11 @@ export default function BingoCard({
           {/* Add Button (+) or Remove Button (✕) */}
           {showAddButton ? (
             <button
-              className={`flex-1 ${
-                isDual ? "h-[clamp(26px,3.2vw,36px)]" : "h-[clamp(28px,4vw,42px)]"
-              } rounded-[clamp(8px,1vw,12px)] text-[clamp(18px,2.2vw,26px)] font-extrabold transition-all active:scale-90 flex items-center justify-center ${
-                isDark
+              className={`flex-1 ${isDual ? "h-[clamp(26px,3.2vw,36px)]" : "h-[clamp(28px,4vw,42px)]"
+                } rounded-[clamp(8px,1vw,12px)] text-[clamp(18px,2.2vw,26px)] font-extrabold transition-all active:scale-90 flex items-center justify-center ${isDark
                   ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/30 hover:text-emerald-300 hover:scale-105"
                   : "bg-emerald-500/10 text-emerald-600 border border-emerald-500/15 hover:bg-emerald-500/20 hover:text-emerald-700 hover:scale-105"
-              }`}
+                }`}
               onClick={handleAddPress}
               title="Add Card"
               aria-label="Add card"
@@ -237,13 +228,11 @@ export default function BingoCard({
           ) : (
             onRemove && (
               <button
-                className={`flex-1 ${
-                  isDual ? "h-[clamp(26px,3.2vw,36px)]" : "h-[clamp(28px,4vw,42px)]"
-                } rounded-[clamp(8px,1vw,12px)] text-[clamp(18px,2.2vw,26px)] font-extrabold transition-all active:scale-90 flex items-center justify-center ${
-                  isDark
+                className={`flex-1 ${isDual ? "h-[clamp(26px,3.2vw,36px)]" : "h-[clamp(28px,4vw,42px)]"
+                  } rounded-[clamp(8px,1vw,12px)] text-[clamp(18px,2.2vw,26px)] font-extrabold transition-all active:scale-90 flex items-center justify-center ${isDark
                     ? "bg-red-500/15 text-red-400 border border-red-500/15 hover:bg-red-500/30 hover:text-white hover:scale-105"
                     : "bg-red-500/10 text-red-500 border border-red-500/15 hover:bg-red-500/20 hover:text-white hover:scale-105"
-                }`}
+                  }`}
                 onClick={onRemove}
                 aria-label="Remove card"
                 title="Remove Card"
@@ -262,18 +251,15 @@ export default function BingoCard({
           {headers.map((letter, idx) => (
             <div
               key={idx}
-              className={`flex-1 ${
-                isDual ? "h-[clamp(20px,2.4vw,28px)]" : "h-[clamp(22px,2.8vw,34px)]"
-              } flex items-center justify-center`}
+              className={`flex-1 ${isDual ? "h-[clamp(20px,2.4vw,28px)]" : "h-[clamp(22px,2.8vw,34px)]"
+                } flex items-center justify-center`}
             >
               <span
-                className={`font-black ${
-                  isDual ? "text-[clamp(14px,1.8vw,20px)]" : "text-[clamp(16px,2.2vw,24px)]"
-                } tracking-[clamp(1px,0.25vw,3px)] ${
-                  isDark
+                className={`font-black ${isDual ? "text-[clamp(14px,1.8vw,20px)]" : "text-[clamp(16px,2.2vw,24px)]"
+                  } tracking-[clamp(1px,0.25vw,3px)] ${isDark
                     ? "text-amber-400 drop-shadow-[0_0_20px_rgba(253,203,110,0.2)]"
                     : "text-purple-900"
-                }`}
+                  }`}
               >
                 {letter}
               </span>
